@@ -10,7 +10,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       width: 100%;
       height: 100%;
@@ -21,6 +22,8 @@
     body {
       transition: background-color 0.3s ease;
     }
+
+    /* HINTERGRUNDFARBEN */
 
     body.ruhe {
       background-color: #000000;
@@ -34,46 +37,51 @@
       background-color: #CC7722;
     }
 
-    /* Kleiner Regler unten rechts */
+    /* REGLER UNTEN RECHTS */
+
     .regler {
       position: fixed;
-      right: 1.2vw;
-      bottom: 1.2vw;
+      right: 1.5vw;
+      bottom: 1.5vw;
 
-      width: clamp(170px, 12vw, 230px);
+      width: clamp(320px, 24vw, 460px);
 
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 12px;
 
-      padding: 7px;
+      padding: 14px;
 
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.94);
 
-      box-shadow: 0 5px 18px rgba(0,0,0,0.25);
+      border-radius: 18px;
+
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
 
       z-index: 10;
     }
 
+    /* EINZELNE KNÖPFE */
+
     .knopf {
       width: 100%;
-      min-height: 50px;
+      min-height: 95px;
 
       display: flex;
       align-items: center;
-      gap: 8px;
 
-      padding: 5px 7px;
+      gap: 16px;
+
+      padding: 10px 14px;
 
       background: white;
 
-      border-radius: 9px;
-      border: 3px solid #ccc;
+      border-radius: 14px;
+      border: 4px solid #cccccc;
 
       cursor: pointer;
 
-      font-size: clamp(14px, 1vw, 19px);
+      font-size: clamp(24px, 1.8vw, 34px);
       font-weight: 800;
 
       text-align: left;
@@ -81,26 +89,38 @@
       transition:
         transform 0.15s ease,
         background-color 0.2s ease,
-        color 0.2s ease;
+        color 0.2s ease,
+        border-color 0.2s ease;
     }
 
     .knopf:hover {
       transform: scale(1.02);
     }
 
-    /* Bilder links in den Knöpfen */
+    /* BILDER IN DEN KNÖPFEN */
+
     .knopf img {
-      width: 42px;
-      height: 42px;
+      width: 82px;
+      height: 82px;
 
       object-fit: cover;
 
-      border-radius: 7px;
+      border-radius: 10px;
 
       flex-shrink: 0;
+
+      background-color: white;
     }
 
-    /* Farben der Knöpfe */
+    /* BESCHRIFTUNG */
+
+    .knopf span {
+      flex: 1;
+      line-height: 1.1;
+    }
+
+    /* FARBEN DER DREI KNÖPFE */
+
     .knopf-ruhe {
       border-color: #000000;
       color: #000000;
@@ -116,32 +136,44 @@
       color: #8A4F14;
     }
 
-    /* Aktiver Knopf */
+    /* AKTIVER KNOPF */
+
     body.ruhe .knopf-ruhe {
-      background: #000000;
-      color: white;
+      background-color: #000000;
+      color: #ffffff;
+      border-color: #000000;
     }
 
     body.fluestern .knopf-fluestern {
-      background: #950606;
-      color: white;
+      background-color: #950606;
+      color: #ffffff;
+      border-color: #950606;
     }
 
     body.sprechen .knopf-sprechen {
-      background: #CC7722;
+      background-color: #CC7722;
       color: #222222;
+      border-color: #CC7722;
     }
 
+    /* KLEINERE BILDSCHIRME */
+
     @media (max-width: 700px) {
+
       .regler {
-        width: 190px;
-        right: 10px;
-        bottom: 10px;
+        width: 300px;
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .knopf {
+        min-height: 82px;
+        font-size: 24px;
       }
 
       .knopf img {
-        width: 38px;
-        height: 38px;
+        width: 68px;
+        height: 68px;
       }
     }
   </style>
@@ -151,25 +183,50 @@
 
   <div class="regler">
 
-    <button class="knopf knopf-ruhe" onclick="setLevel('ruhe')">
-      <img src="ruhe.png" alt="">
+    <button
+      class="knopf knopf-ruhe"
+      type="button"
+      onclick="setLevel('ruhe')"
+    >
+      <img
+        src="./ruhe.png"
+        alt="Symbol für Ruhe"
+      >
       <span>Ruhe</span>
     </button>
 
-    <button class="knopf knopf-fluestern" onclick="setLevel('fluestern')">
-      <img src="fluestern.png" alt="">
+
+    <button
+      class="knopf knopf-fluestern"
+      type="button"
+      onclick="setLevel('fluestern')"
+    >
+      <img
+        src="./fluestern.png"
+        alt="Symbol für Flüstern"
+      >
       <span>Flüstern</span>
     </button>
 
-    <button class="knopf knopf-sprechen" onclick="setLevel('sprechen')">
-      <img src="sprechen.png" alt="">
+
+    <button
+      class="knopf knopf-sprechen"
+      type="button"
+      onclick="setLevel('sprechen')"
+    >
+      <img
+        src="./sprechen.png"
+        alt="Symbol für Sprechen"
+      >
       <span>Sprechen</span>
     </button>
 
   </div>
 
+
   <script>
     function setLevel(level) {
+
       document.body.classList.remove(
         "ruhe",
         "fluestern",
@@ -184,13 +241,23 @@
       );
     }
 
+
     const gespeichert =
       localStorage.getItem("lautstaerkeLevel");
 
-    if (gespeichert) {
+
+    if (
+      gespeichert === "ruhe" ||
+      gespeichert === "fluestern" ||
+      gespeichert === "sprechen"
+    ) {
+
       setLevel(gespeichert);
+
     } else {
+
       setLevel("fluestern");
+
     }
   </script>
 
