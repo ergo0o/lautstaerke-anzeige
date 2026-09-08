@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Lautstärke</title>
 
   <style>
@@ -11,242 +10,189 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #2F80ED;
-      color: white;
-      transition:
-        background-color 0.4s ease,
-        color 0.4s ease;
-    }
-
-    .app {
-      min-height: 100vh;
-      padding: 30px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .anzeige {
-      flex: 1;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      text-align: center;
-    }
-
-    .symbol {
-      font-size: clamp(70px, 12vw, 150px);
-      line-height: 1;
-      margin-bottom: 20px;
-    }
-
-    .titel {
-      font-size: clamp(70px, 14vw, 180px);
-      font-weight: 900;
-      line-height: 1;
-
-      text-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .untertitel {
-      margin-top: 25px;
-
-      font-size: clamp(20px, 3vw, 38px);
-      font-weight: 600;
-    }
-
-    .buttons {
       width: 100%;
-      max-width: 950px;
-
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-
-      padding-bottom: 20px;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
     }
 
-    button {
-      flex: 1;
+    body {
+      transition: background-color 0.3s ease;
+    }
 
-      padding: 22px 15px;
+    body.ruhe {
+      background-color: #000000;
+    }
 
-      border: 4px solid rgba(255,255,255,0.7);
-      border-radius: 18px;
+    body.fluestern {
+      background-color: #950606;
+    }
 
-      background: rgba(255,255,255,0.22);
-      color: white;
+    body.sprechen {
+      background-color: #CC7722;
+    }
 
-      font-size: clamp(18px, 2.5vw, 30px);
-      font-weight: bold;
+    /* Kleiner Regler unten rechts */
+    .regler {
+      position: fixed;
+      right: 1.2vw;
+      bottom: 1.2vw;
+
+      width: clamp(170px, 12vw, 230px);
+
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      padding: 7px;
+
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 12px;
+
+      box-shadow: 0 5px 18px rgba(0,0,0,0.25);
+
+      z-index: 10;
+    }
+
+    .knopf {
+      width: 100%;
+      min-height: 50px;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 5px 7px;
+
+      background: white;
+
+      border-radius: 9px;
+      border: 3px solid #ccc;
 
       cursor: pointer;
 
+      font-size: clamp(14px, 1vw, 19px);
+      font-weight: 800;
+
+      text-align: left;
+
       transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease,
-        border-color 0.2s ease;
+        transform 0.15s ease,
+        background-color 0.2s ease,
+        color 0.2s ease;
     }
 
-    button:hover {
-      background: rgba(255,255,255,0.35);
-      transform: scale(1.03);
+    .knopf:hover {
+      transform: scale(1.02);
     }
 
-    button.aktiv {
-      background: white;
-      color: #222;
-      border-color: white;
-      transform: scale(1.04);
+    /* Bilder links in den Knöpfen */
+    .knopf img {
+      width: 42px;
+      height: 42px;
+
+      object-fit: cover;
+
+      border-radius: 7px;
+
+      flex-shrink: 0;
     }
 
-    body.sprechen button {
-      color: #222;
-      border-color: rgba(0,0,0,0.35);
-      background: rgba(255,255,255,0.35);
+    /* Farben der Knöpfe */
+    .knopf-ruhe {
+      border-color: #000000;
+      color: #000000;
     }
 
-    body.sprechen button:hover {
-      background: rgba(255,255,255,0.55);
+    .knopf-fluestern {
+      border-color: #950606;
+      color: #950606;
     }
 
-    body.sprechen button.aktiv {
-      background: #222;
+    .knopf-sprechen {
+      border-color: #CC7722;
+      color: #8A4F14;
+    }
+
+    /* Aktiver Knopf */
+    body.ruhe .knopf-ruhe {
+      background: #000000;
       color: white;
-      border-color: #222;
     }
 
-    @media (max-width: 600px) {
-      .buttons {
-        flex-direction: column;
+    body.fluestern .knopf-fluestern {
+      background: #950606;
+      color: white;
+    }
+
+    body.sprechen .knopf-sprechen {
+      background: #CC7722;
+      color: #222222;
+    }
+
+    @media (max-width: 700px) {
+      .regler {
+        width: 190px;
+        right: 10px;
+        bottom: 10px;
+      }
+
+      .knopf img {
+        width: 38px;
+        height: 38px;
       }
     }
   </style>
 </head>
 
-<body>
+<body class="fluestern">
 
-  <div class="app">
+  <div class="regler">
 
-    <div class="anzeige">
+    <button class="knopf knopf-ruhe" onclick="setLevel('ruhe')">
+      <img src="ruhe.png" alt="">
+      <span>Ruhe</span>
+    </button>
 
-      <div class="symbol" id="symbol">
-        🤫
-      </div>
+    <button class="knopf knopf-fluestern" onclick="setLevel('fluestern')">
+      <img src="fluestern.png" alt="">
+      <span>Flüstern</span>
+    </button>
 
-      <div class="titel" id="titel">
-        Flüstern
-      </div>
-
-      <div class="untertitel" id="untertitel">
-        Wir sprechen ganz leise miteinander.
-      </div>
-
-    </div>
-
-    <div class="buttons">
-
-      <button id="ruhe" onclick="setLevel('ruhe')">
-        🤐 Ruhe
-      </button>
-
-      <button id="fluestern" class="aktiv" onclick="setLevel('fluestern')">
-        🤫 Flüstern
-      </button>
-
-      <button id="sprechen" onclick="setLevel('sprechen')">
-        💬 Sprechen
-      </button>
-
-    </div>
+    <button class="knopf knopf-sprechen" onclick="setLevel('sprechen')">
+      <img src="sprechen.png" alt="">
+      <span>Sprechen</span>
+    </button>
 
   </div>
 
   <script>
-
     function setLevel(level) {
+      document.body.classList.remove(
+        "ruhe",
+        "fluestern",
+        "sprechen"
+      );
 
-      const titel =
-        document.getElementById("titel");
+      document.body.classList.add(level);
 
-      const symbol =
-        document.getElementById("symbol");
-
-      const untertitel =
-        document.getElementById("untertitel");
-
-      const body =
-        document.body;
-
-
-      document
-        .querySelectorAll("button")
-        .forEach(button =>
-          button.classList.remove("aktiv")
-        );
-
-      body.classList.remove("sprechen");
-
-
-      if (level === "ruhe") {
-
-        body.style.backgroundColor = "#000000";
-        body.style.color = "#FFFFFF";
-
-        titel.textContent = "Ruhe";
-        symbol.textContent = "🤐";
-        untertitel.textContent = "Wir arbeiten ganz still.";
-
-        document
-          .getElementById("ruhe")
-          .classList.add("aktiv");
-      }
-
-
-      if (level === "fluestern") {
-
-        body.style.backgroundColor = "#2F80ED";
-        body.style.color = "#FFFFFF";
-
-        titel.textContent = "Flüstern";
-        symbol.textContent = "🤫";
-        untertitel.textContent = "Wir sprechen ganz leise miteinander.";
-
-        document
-          .getElementById("fluestern")
-          .classList.add("aktiv");
-      }
-
-
-      if (level === "sprechen") {
-
-        body.style.backgroundColor = "#F2C94C";
-        body.style.color = "#222222";
-
-        body.classList.add("sprechen");
-
-        titel.textContent = "Sprechen";
-        symbol.textContent = "💬";
-        untertitel.textContent = "Wir dürfen miteinander sprechen.";
-
-        document
-          .getElementById("sprechen")
-          .classList.add("aktiv");
-      }
-
+      localStorage.setItem(
+        "lautstaerkeLevel",
+        level
+      );
     }
 
+    const gespeichert =
+      localStorage.getItem("lautstaerkeLevel");
+
+    if (gespeichert) {
+      setLevel(gespeichert);
+    } else {
+      setLevel("fluestern");
+    }
   </script>
 
 </body>
 </html>
-```
